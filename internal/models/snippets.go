@@ -6,9 +6,6 @@ import (
 	"time"
 )
 
-// Define a Snippet type to hold the data for an individual snippet. Notice how
-// the fields of the struct correspond to the fields in our MySQL snippets
-// table?
 type Snippet struct {
 	ID      int
 	Title   string
@@ -20,6 +17,12 @@ type Snippet struct {
 // Define a SnippetModel type which wraps a sql.DB connection pool.
 type SnippetModel struct {
 	DB *sql.DB
+}
+
+type SnippetModelInterface interface {
+	Insert(title string, content string, expires int) (int, error)
+	Get(id int) (Snippet, error)
+	Latest() ([]Snippet, error)
 }
 
 // This will insert a new snippet into the database.
